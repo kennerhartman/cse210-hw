@@ -9,6 +9,32 @@ class Program
         string gradeString = Console.ReadLine();
         int grade = int.Parse(gradeString);
 
+        char letter = GetGradeLetter(grade);
+        bool isSignedGrade = IsSignedGrade(grade);
+
+        if (isSignedGrade)
+        {
+            char sign = GetSign(grade);
+
+            Console.WriteLine($"You got a grade of {letter}{sign}.");
+        } 
+        else
+        {
+            Console.WriteLine($"You got a grade of {letter}.");
+        }
+
+        if (grade >= 70)
+        {
+            Console.WriteLine("Congratulations, you passed the class!");
+        }
+        else
+        {
+            Console.WriteLine("It looks like you didn't pass the class. Study harder next time!");
+        }
+    }
+
+    static char GetGradeLetter(int grade)
+    {
         char letter;
 
         if (grade >= 90)
@@ -32,27 +58,7 @@ class Program
             letter = 'F';
         }
 
-        bool isSignedGrade = IsSignedGrade(grade);
-
-        if (isSignedGrade)
-        {
-            char sign = GetSign(grade);
-
-            Console.WriteLine($"You got a grade of {letter}{sign}.");
-        } 
-        else
-        {
-            Console.WriteLine($"You got a grade of {letter}.");
-        }
-
-        if (grade >= 70)
-        {
-            Console.WriteLine("Congratulations, you passed the class!");
-        }
-        else
-        {
-            Console.WriteLine("It looks like you didn't pass the class. Study harder next time!");
-        }
+        return letter;
     }
 
     static bool IsSignedGrade(int grade)
