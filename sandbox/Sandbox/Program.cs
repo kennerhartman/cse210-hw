@@ -53,12 +53,19 @@ class Program
 
         // functions/methods
 
-        Console.WriteLine(AddNumbers(0.34234, 0.20342));
+        double answer = AddNumbers(0.34234, 0.20342);
+        DisplayGreeting("Bob");
+        Console.WriteLine(answer);
     }
 
     static double AddNumbers(double x, double y)
     {
         return x + y;
+    }
+
+    static void DisplayGreeting(String name)
+    {
+        Console.WriteLine($"Welcome, {name}, pleased to meet you!");
     }
 
 }
