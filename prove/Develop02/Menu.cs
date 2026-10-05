@@ -13,18 +13,26 @@ class Menu
     /// <returns>A boolean to tell the program in Main to stop or continue running.</returns>
     public bool DisplayMenu()
     {
+        Console.WriteLine("What would you like to do?");
+        
         Console.WriteLine("1. Write");
         Console.WriteLine("2. Dispaly");
         Console.WriteLine("3. Load");
         Console.WriteLine("4. Save");
         Console.WriteLine("5. Quit");
-
-        Console.WriteLine("What would you like to do?");
         
         string response = Console.ReadLine();
-        int parsedResponse = int.Parse(response);
 
-        return this.ProcessUserInput(parsedResponse);
+        if (int.TryParse(response, out int option))
+        {
+            return this.ProcessUserInput(option);
+        } 
+        else
+        {
+            Console.WriteLine($"'{response}' is not a valid option!\n");
+        }
+
+        return false;
     }
 
     public bool ProcessUserInput(int response)
@@ -78,7 +86,16 @@ class Menu
             lines.Add(line);
         }
 
-        File.WriteAllLines(filename, lines);
+        if (File.Exists(filename))
+        {
+            Console.Write("This file already exists. Do you want to overwrite it? (y/n)");
+            string response = Console.ReadLine();
+
+            if (response == "y")
+            {
+                File.WriteAllLines(filename, lines);
+            }
+        }
     }
 
     public void LoadJournal()
@@ -102,7 +119,7 @@ class Menu
             string response = parts[2];
 
             string dateFormat = "M/d/yyyy h:mm:ss tt";
-            string cleanedDateString = dateString.Replace('\u202F', ' '); 
+            string cleanedDateString = dateString.Replace('\u202F', ' ');
             DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
 
             Entry entry = new Entry(date, prompt, response);
