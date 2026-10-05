@@ -3,6 +3,8 @@ using System.Reflection.Metadata.Ecma335;
 
 class Menu
 {
+    Journal _journal = new Journal();
+
     /// <summary>
     /// A utility method to dispaly menu options for the user to select what action they want to
     /// perform with in the program.
@@ -28,10 +30,10 @@ class Menu
     {
         if (response == 1)
         {
-            
+            this._journal.WriteJournalEntry();
         } 
         else if (response == 2) {
-            
+            this._journal.DisplayEntries();
         }
         else if (response == 3)
         {
@@ -55,6 +57,4 @@ class Menu
 
         return false;
     }
-
-
 }
