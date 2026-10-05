@@ -1,8 +1,9 @@
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
+using System.Globalization;
 
 class Menu
 {
+    private static string delimiter = "|";
+
     Journal _journal = new Journal();
 
     /// <summary>
@@ -37,11 +38,11 @@ class Menu
         }
         else if (response == 3)
         {
-            
+            this.LoadJournal();
         }
         else if (response == 4)
         {
-            
+            this.SaveJournal();
         }
         else if (response == 5)
         {
@@ -52,9 +53,61 @@ class Menu
         } 
         else
         {
-            
+            Console.WriteLine("Could not find a valid action to take.");
         }
 
         return false;
+    }
+
+    public void SaveJournal()
+    {
+        Console.Write("Please enter the filename: ");
+        string filename = Console.ReadLine();
+
+        if (!filename.EndsWith(".txt"))
+        {
+            filename += ".txt";
+        }
+
+        List<string> lines = [];
+
+        foreach (Entry entry in this._journal._entries)
+        {
+            string line = $"{entry._date}{Menu.delimiter}{entry._prompt}{Menu.delimiter}{entry._response}";
+
+            lines.Add(line);
+        }
+
+        File.WriteAllLines(filename, lines);
+    }
+
+    public void LoadJournal()
+    {
+        Console.Write("Please enter the filename to load: ");
+        string filename = Console.ReadLine();
+
+        if (!filename.EndsWith(".txt"))
+        {
+            filename += ".txt";
+        }
+
+        List<string> lines = File.ReadAllLines(filename).ToList();
+
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split(Menu.delimiter);
+
+            string dateString = parts[0];
+            string prompt = parts[1];
+            string response = parts[2];
+
+            string dateFormat = "M/d/yyyy h:mm:ss tt";
+            string cleanedDateString = dateString.Replace('\u202F', ' '); 
+            DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
+
+            Entry entry = new Entry(date, prompt, response);
+
+            this._journal.AddEntry(entry);
+        }
     }
 }

@@ -13,7 +13,16 @@ class Journal
         "Write about your day; the ups and downs."
     ];
 
-    List<Entry> _entries = [];
+    public List<Entry> _entries = [];
+
+    /// <summary>
+    /// Add an entry to the journal from an already exisitng entry object.
+    /// </summary>
+    /// <param name="entry">The entry to add to the journal.</param>
+    public void AddEntry(Entry entry)
+    {
+        this._entries.Add(entry);
+    }
 
     /// <summary>
     /// Selects a random prompt to display to the user and gives the user the opportunity to write a journal entry. After they finsihed writing their response,
