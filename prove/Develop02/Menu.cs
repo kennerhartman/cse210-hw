@@ -2,7 +2,7 @@ using System.Globalization;
 
 class Menu
 {
-    private static string delimiter = "|";
+    private static char delimiter = '|';
 
     Journal _journal = new Journal();
 
@@ -108,23 +108,29 @@ class Menu
             filename += ".txt";
         }
 
-        List<string> lines = File.ReadAllLines(filename).ToList();
+        try {
+            List<string> lines = File.ReadAllLines(filename).ToList();
 
-        foreach (string line in lines)
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(Menu.delimiter);
+
+                string dateString = parts[0];
+                string prompt = parts[1];
+                string response = parts[2];
+
+                string dateFormat = "M/d/yyyy h:mm:ss tt";
+                string cleanedDateString = dateString.Replace('\u202F', ' ');
+                DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
+
+                Entry entry = new Entry(date, prompt, response);
+
+                this._journal.AddEntry(entry);
+            }
+        } 
+        catch
         {
-            string[] parts = line.Split(Menu.delimiter);
-
-            string dateString = parts[0];
-            string prompt = parts[1];
-            string response = parts[2];
-
-            string dateFormat = "M/d/yyyy h:mm:ss tt";
-            string cleanedDateString = dateString.Replace('\u202F', ' ');
-            DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
-
-            Entry entry = new Entry(date, prompt, response);
-
-            this._journal.AddEntry(entry);
+            Console.WriteLine($"Unable to find file {filename}!\n");
         }
     }
 }
