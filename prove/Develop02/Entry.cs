@@ -4,6 +4,13 @@ class Entry
     public string _prompt;
     public DateTime _date;
 
+    /// <summary>
+    /// Create a new entry with a given date and time.  Useful for creating a new entry object
+    /// from data laoded from a file.
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="prompt"></param>
+    /// <param name="response"></param>
     public Entry(DateTime date, string prompt, string response)
     {
         this._date = date;
@@ -11,6 +18,11 @@ class Entry
         this._response = response;
     }
 
+    /// <summary>
+    /// Create a new entry with the current date and time.
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <param name="response"></param>
     public Entry(string prompt, string response)
     {
         this._date = DateTime.Now;

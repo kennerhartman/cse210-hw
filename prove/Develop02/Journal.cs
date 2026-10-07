@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.Swift;
-
 class Journal
 {
     Random _random = new Random(); // used to get a random number to get a random prompt from _prompts.

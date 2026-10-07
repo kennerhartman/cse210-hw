@@ -8,7 +8,7 @@ class Menu
 
     /// <summary>
     /// A utility method to dispaly menu options for the user to select what action they want to
-    /// perform with in the program.
+    /// perform within the program.
     /// </summary>
     /// <returns>A boolean to tell the program in Main to stop or continue running.</returns>
     public bool DisplayMenu()
@@ -108,29 +108,30 @@ class Menu
             filename += ".txt";
         }
 
-        try {
-            List<string> lines = File.ReadAllLines(filename).ToList();
-
-            foreach (string line in lines)
-            {
-                string[] parts = line.Split(Menu.delimiter);
-
-                string dateString = parts[0];
-                string prompt = parts[1];
-                string response = parts[2];
-
-                string dateFormat = "M/d/yyyy h:mm:ss tt";
-                string cleanedDateString = dateString.Replace('\u202F', ' ');
-                DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
-
-                Entry entry = new Entry(date, prompt, response);
-
-                this._journal.AddEntry(entry);
-            }
-        } 
-        catch
+        if (!File.Exists(filename))
         {
-            Console.WriteLine($"Unable to find file {filename}!\n");
+            Console.WriteLine($"Could not find file with name {filename}.\n");
+            
+            return;
+        }
+
+        List<string> lines = File.ReadAllLines(filename).ToList();
+
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split(Menu.delimiter);
+
+            string dateString = parts[0];
+            string prompt = parts[1];
+            string response = parts[2];
+
+            string dateFormat = "M/d/yyyy h:mm:ss tt";
+            string cleanedDateString = dateString.Replace('\u202F', ' ');
+            DateTime date = DateTime.ParseExact(cleanedDateString, dateFormat, CultureInfo.InvariantCulture);
+
+            Entry entry = new Entry(date, prompt, response);
+
+            this._journal.AddEntry(entry);
         }
     }
 }
