@@ -31,8 +31,15 @@ class Scripture
         }
     }
 
+    public string GetReference()
+    {
+        return this._reference.AsString();
+    }
+
     public void DisplayScriptureWithReference()
     {
+        Console.Clear();
+
         this._reference.DisplayReference();
         
         this.DisplayWords();
@@ -43,8 +50,6 @@ class Scripture
         Console.Clear();
         
         this.HideWords();
-
-        this.DisplayScriptureWithReference();
     }
 
     private void HideWords()

@@ -23,8 +23,13 @@ class ScriptureReference
 
     public void DisplayReference()
     {
+        Console.WriteLine(this.AsString());
+    }
+
+    public string AsString()
+    {
         string finalVerse = this._finalVerse == -1 ? "" : $"-{this._finalVerse}";
 
-        Console.WriteLine($"{this._book} {this._chapter}:{_verse}{finalVerse}");
+        return $"{this._book} {this._chapter}:{_verse}{finalVerse}";
     }
 }
