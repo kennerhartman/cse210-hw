@@ -1,6 +1,7 @@
 class Menu
 {
     private List<Scripture> _scriptures = new List<Scripture>();
+    private int _numberOfWordsToHide = 3;
     private bool _isRunning = true;
 
     public Menu()
@@ -45,6 +46,12 @@ class Menu
                 mosiah319
             )
         );
+
+        Console.WriteLine("How many words do you want to hide?");
+        
+        string wordsToHideInput = Console.ReadLine();
+        this._numberOfWordsToHide = int.Parse(wordsToHideInput);
+        Console.Clear();
     }
 
     public void DisplayMenu()
@@ -93,13 +100,15 @@ class Menu
 
             if (string.IsNullOrEmpty(key))
             {
-                scripture.ScrambleWords();
+                scripture.ScrambleWords(this._numberOfWordsToHide);
             }
             else if (key == "q")
             {
                 Console.Clear();
                 
                 isDisplayingScripture = false;
+
+                scripture.ResetScripture();
             }
         }
     }

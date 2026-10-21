@@ -1,6 +1,7 @@
 class Word
 {
     private string _word;
+    private string _hiddenWord;
     private bool _isHidden = false;
 
     public Word(string text)
@@ -11,6 +12,11 @@ class Word
     public bool IsHidden()
     {
         return this._isHidden;
+    }
+
+    public void RevealWord()
+    {
+        this._isHidden = false;
     }
 
     public void HideWord()
@@ -24,12 +30,12 @@ class Word
             chars[i] = newChar;
         }
 
-        this._word = new string(chars);
+        this._hiddenWord = new string(chars);
         this._isHidden = true;
     }
 
     public string AsString()
     {
-        return this._word;
+        return this._isHidden ? this._hiddenWord : this._word;
     }
 }

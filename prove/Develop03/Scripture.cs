@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
-using System.Runtime.ConstrainedExecution;
-
 class Scripture
 {
     private List<Word> _words = [];
@@ -29,11 +25,19 @@ class Scripture
         this.DisplayWords();
     }
 
-    public void ScrambleWords()
+    public void ScrambleWords(int numberOfWordsToHide)
     {
         Console.Clear();
         
-        this.HideWords();
+        this.HideWords(numberOfWordsToHide);
+    }
+
+    public void ResetScripture()
+    {
+        foreach (Word word in this._words)
+        {
+            word.RevealWord();
+        }
     }
 
     private void SeperateWords(string text)
@@ -57,11 +61,16 @@ class Scripture
         }
     }
 
-    private void HideWords()
+    private void HideWords(int numberOfWordsToHide)
     {
+        if (numberOfWordsToHide <= 0)
+        {
+            numberOfWordsToHide = 3;
+        }
+
         int wordsHidden = 0;
 
-        while (wordsHidden < 3 && this._words.Any(word => !word.IsHidden() && word.AsString() != "\n"))
+        while (wordsHidden < numberOfWordsToHide && this._words.Any(word => !word.IsHidden() && word.AsString() != "\n"))
         {
             int i = this._random.Next(this._words.Count);
             
