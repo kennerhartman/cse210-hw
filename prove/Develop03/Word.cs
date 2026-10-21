@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Runtime.InteropServices;
-
 class Word
 {
     private string _word;

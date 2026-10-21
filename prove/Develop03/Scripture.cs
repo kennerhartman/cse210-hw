@@ -12,23 +12,7 @@ class Scripture
     {
         this._reference = reference;
 
-        string[] seperators = { "\r\n", "\n" };
-        string[] lines = text.Split(seperators, StringSplitOptions.None);
-
-        for (int i = 0; i < lines.Length; ++i)
-        {
-            string[] words = lines[i].Split([' '], StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string word in words)
-            {
-                this._words.Add(new Word(word));
-            }
-
-            if (i < lines.Length - 1)
-            {
-                this._words.Add(new Word("\n"));
-            }
-        }
+        this.SeperateWords(text);
     }
 
     public string GetReference()
@@ -50,6 +34,27 @@ class Scripture
         Console.Clear();
         
         this.HideWords();
+    }
+
+    private void SeperateWords(string text)
+    {
+        string[] seperators = { "\r\n", "\n" };
+        string[] lines = text.Split(seperators, StringSplitOptions.None);
+
+        for (int i = 0; i < lines.Length; ++i)
+        {
+            string[] words = lines[i].Split([' '], StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string word in words)
+            {
+                this._words.Add(new Word(word));
+            }
+
+            if (i < lines.Length - 1)
+            {
+                this._words.Add(new Word("\n"));
+            }
+        }
     }
 
     private void HideWords()

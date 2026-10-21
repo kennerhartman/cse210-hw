@@ -68,10 +68,12 @@ class Menu
         {
             this.DisplayScripture(input);
         }
-
-        if (input == this._scriptures.Count)
+        else if (input == this._scriptures.Count)
         {
             this._isRunning = false;
+        } else
+        {
+            Console.WriteLine($"'{input + 1}' is not a valid option!\n");
         }
     }
 
