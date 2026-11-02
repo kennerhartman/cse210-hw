@@ -42,21 +42,34 @@ class Activity
         }
     }
 
-    public void DisplayCountdownMessage(string message, int seconds)
+    public void DisplayCountdownMessage(string message, int seconds, bool shouldClearConsole = true)
     {
         Console.CursorVisible = false;
 
+        if (shouldClearConsole)
+        {
+            Console.Clear();
+        }
+
+        Console.Write($"{message} ");
+
         for (int i = seconds; i > 0; i--)
         {
-            Console.Clear(); // TODO: POLISH
-            Console.WriteLine($"{message} {i}");
+            if (i > 0)
+            {
+                Console.Write("\b \b");
+            }
+            
+            Console.Write(i);
+
             Thread.Sleep(1000);
         }
 
         Console.CursorVisible = true;
+        Console.WriteLine();
     }
 
-    public void DisplaySpinnerMessage(string message, int seconds)
+    public void DisplaySpinnerMessage(string message, int seconds, bool shouldClearConsole = true)
     {
         char[] spinners = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
         
@@ -64,14 +77,28 @@ class Activity
 
         DateTime endTime = DateTime.Now.AddSeconds(seconds);
 
+        if (shouldClearConsole)
+        {
+            Console.Clear();
+        }
+
+        Console.Write($"{message} ");
+
         while (DateTime.Now < endTime)
         {
-            Console.Clear(); // TODO: POLISH
-            Console.WriteLine($"{message} {spinners[i % spinners.Length]}");
+            if (i > 0)
+            {
+                Console.Write("\b \b");
+            }
+            
+            Console.Write(spinners[i % spinners.Length]);
 
             ++i;
 
             Thread.Sleep(200);
         }
+
+        Console.Write("\b \b");
+        Console.WriteLine();
     }
 }

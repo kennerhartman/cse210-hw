@@ -7,13 +7,14 @@ class Program
 
     static void Main(string[] args)
     {
-        RunBreathingActivity();
-        // RunListingActivity();
+        // RunBreathingActivity();
+        // RunReflectingActivity();
+        RunListingActivity();
     }
 
     private static void RunBreathingActivity()
     {
-        BreathingActivty breathingActivty = new BreathingActivty("Breathing Activity", "This activity will help you relax by walking your through breathing in and out slowly. Clear your mi nd and focus on your breathing.");
+        BreathingActivty breathingActivty = new BreathingActivty("Breathing Activity", "This activity will help you relax by walking your through breathing in and out slowly. Clear your mind and focus on your breathing.");
 
         breathingActivty.DisplayStartingMessage();
         breathingActivty.GetDurationFromUser();

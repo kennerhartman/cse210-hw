@@ -1,29 +1,22 @@
-class ListingActivity : Activity 
+class ListingActivity : PromptActivity 
 {
-    private string[] _prompts =
-    {
-        "When have you felt the Holy Ghost this month?",
-        "What are personal strengths of yours?",
-        "Who are people that you appreciate?",
-        "What activities/hobbies do you enjoy to do?"
-    };
-
     private List<string> _userResponses = new List<string>();
     
     public ListingActivity(string title, string description) : base(title, description)
     {
+        this._prompts = [
+            "When have you felt the Holy Ghost this month?",
+            "What are personal strengths of yours?",
+            "Who are people that you appreciate?",
+            "What activities/hobbies do you enjoy to do?"
+        ];
     }
 
     public void RunActivity()
     {
-        // TODO: MOVE TO A METHOD IN A NEW 'PromptActivity' CLASS
+        this.DisplayPromptActivityInstructions("List as many responses you can to the following prompt:");
 
-        Console.WriteLine("List as many responses you can to the following prompt:");
-
-        string prompt = this.GetRandomPrompt();
-        Console.WriteLine($"--- {prompt} ---\n");
-
-        this.DisplayCountdownMessage("You may begin in", 3);
+        this.DisplayCountdownMessage("You may begin in: ", 3, false);
 
         int duration = this.GetDuration();
         DateTime endTime = DateTime.Now.AddSeconds(duration);
@@ -45,15 +38,5 @@ class ListingActivity : Activity
         Console.WriteLine($"You listed {this._userResponses.Count()} items!");
 
         this.DisplayEndingMessage();
-    }
-
-    // TODO: MOVE TO A METHOD IN A NEW 'PromptActivity' CLASS
-    private string GetRandomPrompt()
-    {
-        Random random = new Random();
-        
-        int length = this._prompts.Count();
-
-        return this._prompts[random.Next(length)];
     }
 }

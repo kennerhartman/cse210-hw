@@ -9,18 +9,29 @@ class BreathingActivty : Activity
         DateTime endTime = DateTime.Now.AddSeconds(this.GetDuration());
 
         bool breathingIn = true;
+        bool shouldContinueLoop = DateTime.Now < endTime;
 
-        while (DateTime.Now < endTime)
+        while (shouldContinueLoop)
         {
+            bool stillNeedsToBreathOut;
+            
             if (breathingIn)
             {
-                this.DisplayCountdownMessage("Breath in... ", 4);
-            } 
+                this.DisplayCountdownMessage("Breath in... ", 4, false);
+                stillNeedsToBreathOut = true;
+            }
             else
             {
-                this.DisplayCountdownMessage("Breath out... ", 6);    
+                this.DisplayCountdownMessage("Breath out... ", 6, false);
+                stillNeedsToBreathOut = false;
+
+                if (DateTime.Now < endTime)
+                {
+                    Console.WriteLine();
+                }
             }
 
+            shouldContinueLoop = DateTime.Now < endTime || stillNeedsToBreathOut;
             breathingIn = !breathingIn;
         }
 
