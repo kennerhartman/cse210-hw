@@ -27,6 +27,10 @@ abstract class Activity
     {
         Console.WriteLine("\nWell Done!\n");
         Console.WriteLine($"You have completed another {this._duration} seconds of the {this._title}.");
+
+        this.DisplaySpinnerMessage("", 3, false);
+
+        Console.Clear();
         
         menu.AddToTotalDuration(duration);
         menu.IncrementTotalNumberOfActivitesCompleted();
@@ -100,7 +104,10 @@ abstract class Activity
             Console.Clear();
         }
 
-        Console.Write($"{message} ");
+        if (!string.IsNullOrEmpty(message))
+        {
+            Console.Write($"{message} ");
+        }
 
         while (DateTime.Now < endTime)
         {

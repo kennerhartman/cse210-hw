@@ -10,7 +10,8 @@ class Menu
         Console.WriteLine("    1. Start breathing activity");
         Console.WriteLine("    2. Start reflection activity");
         Console.WriteLine("    3. Start listing activity");
-        Console.WriteLine("    4. Quit");
+        Console.WriteLine("    4. Start journaling activity");
+        Console.WriteLine("    5. Quit");
 
         Console.Write("Select a choice from the menu: ");
         
@@ -47,6 +48,10 @@ class Menu
             this.RunListingActivity();
         }
         else if (response == 4)
+        {
+            this.RunJournalingActivity();
+        }
+        else if (response == 5)
         {
             Console.Write("Are you sure you want to quit? (y/n): ");
             string answer = Console.ReadLine();
@@ -113,6 +118,16 @@ class Menu
         );
 
         this.RunActivity(listingActivity);
+    }
+
+    private void RunJournalingActivity()
+    {
+        JournalingActivity journalingActivity = new JournalingActivity(
+            "Journaling Activity",
+            "This activity will help you find ideas what to write about in your journal."
+        );
+
+        this.RunActivity(journalingActivity);
     }
 
     private void RunActivity(Activity activity)

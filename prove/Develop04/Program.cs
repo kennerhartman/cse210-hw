@@ -6,6 +6,7 @@ class Program
     //     - Keeping track how many times the user has done an activity.
     //     - The total time they have spent doing the various activities. (This includes the total time they spent doing the breathing exercise 
     //         by counting how long the exercise went for, not how long they said they wanted to do it for.)
+    //     - Added another activity that gives the user a prompt to think and journal about.
 
     static void Main(string[] args)
     {
