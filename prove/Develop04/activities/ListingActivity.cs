@@ -12,7 +12,7 @@ class ListingActivity : PromptActivity
         ];
     }
 
-    public void RunActivity()
+    public override void RunActivity(Menu menu)
     {
         this.DisplayPromptActivityInstructions("List as many responses you can to the following prompt:");
 
@@ -35,8 +35,8 @@ class ListingActivity : PromptActivity
             this._userResponses.Add(input);
         }
 
-        Console.WriteLine($"You listed {this._userResponses.Count()} items!");
+        Console.WriteLine($"\nYou listed {this._userResponses.Count()} items!");
 
-        this.DisplayEndingMessage();
+        this.FinishActivity(menu);
     }
 }

@@ -1,4 +1,4 @@
-class Activity
+abstract class Activity
 {
     private string _title;
     private string _description;
@@ -9,6 +9,8 @@ class Activity
         this._title = title;
         this._description = description;
     }
+
+    public abstract void RunActivity(Menu menu);
 
     public int GetDuration()
     {
@@ -21,24 +23,40 @@ class Activity
         Console.WriteLine($"{this._description}\n");
     }
 
-    public void DisplayEndingMessage()
+    public void FinishActivity(Menu menu, int duration)
     {
         Console.WriteLine("\nWell Done!\n");
         Console.WriteLine($"You have completed another {this._duration} seconds of the {this._title}.");
+        
+        menu.AddToTotalDuration(duration);
+        menu.IncrementTotalNumberOfActivitesCompleted();
+    }
+
+    public void FinishActivity(Menu menu)
+    {
+        this.FinishActivity(menu, this._duration);
     }
 
     public void GetDurationFromUser()
     {
         Console.Write("How long would you like for your session (in seconds?) ");
 
-        string inputString = Console.ReadLine();
-        int duration = int.Parse(inputString);
-
-        if (duration > 0)
+        while (true)
         {
-            // TODO: GET INPUT AGAIN IF <= 0
+            string inputString = Console.ReadLine();
+            int duration = int.Parse(inputString);
 
-            this._duration = duration;
+            if (duration > 0)
+            {
+                this._duration = duration;
+
+                break;
+            } 
+            else
+            {
+                Console.Clear();
+                Console.Write("Invalid input. How long would you like for your session (in seconds?) ");
+            }
         }
     }
 

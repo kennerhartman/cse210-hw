@@ -4,26 +4,33 @@ class BreathingActivty : Activity
     {
     }
 
-    public void RunActivity()
+    public override void RunActivity(Menu menu)
     {
-        DateTime endTime = DateTime.Now.AddSeconds(this.GetDuration());
+        int duration = this.GetDuration();
+        
+        DateTime endTime = DateTime.Now.AddSeconds(duration);
 
+        int actualDuration = 0;
+        
         bool breathingIn = true;
         bool shouldContinueLoop = DateTime.Now < endTime;
 
         while (shouldContinueLoop)
         {
             bool stillNeedsToBreathOut;
-            
+
             if (breathingIn)
             {
                 this.DisplayCountdownMessage("Breath in... ", 4, false);
                 stillNeedsToBreathOut = true;
+                actualDuration += 4;
             }
             else
             {
                 this.DisplayCountdownMessage("Breath out... ", 6, false);
+                
                 stillNeedsToBreathOut = false;
+                actualDuration += 6;
 
                 if (DateTime.Now < endTime)
                 {
@@ -35,6 +42,6 @@ class BreathingActivty : Activity
             breathingIn = !breathingIn;
         }
 
-        this.DisplayEndingMessage();
+        this.FinishActivity(menu, actualDuration);
     }
 }

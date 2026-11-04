@@ -1,4 +1,4 @@
-class PromptActivity : Activity
+abstract class PromptActivity : Activity
 {
     private Random _random = new Random();
     protected string[] _prompts;

@@ -17,13 +17,15 @@ class ReflectingActivity : PromptActivity
         ];
     }
 
-    public void RunActivity()
+    public override void RunActivity(Menu menu)
     {
         this.DisplayPromptActivityInstructions("Consider the following prompt:");
 
         Console.WriteLine("When you have something in mind, press 'enter' to continue.");
 
         string input = Console.ReadLine();
+
+        int duration = this.GetDuration();
 
         if (string.IsNullOrEmpty(input))
         {
@@ -32,12 +34,12 @@ class ReflectingActivity : PromptActivity
             
             Console.Clear();
 
-            int durationPerQuestion = this.GetDuration() / 2;
+            int durationPerQuestion = duration / 2;
 
             this.DisplaySpinnerMessage($"> {this.GetRandomQuestion()}", durationPerQuestion, false);
             this.DisplaySpinnerMessage($"> {this.GetRandomQuestion()}", durationPerQuestion, false);
 
-            this.DisplayEndingMessage();
+            this.FinishActivity(menu);
         }
     }
 
