@@ -1,4 +1,4 @@
-class Person
+abstract class Person
 {
     private string _firstName;
     private string _lastName;
@@ -13,8 +13,10 @@ class Person
         this._weight = weight;
     }
 
-    public string GetPersonInformation()
+    public virtual string GetPersonInformation()
     {
-        return $"{this._firstName} {this._lastName} is {this._age} {(this._age == 1 ? "year" : "years")} old and weighs {this._weight} lbs.";
+        return $"{this._firstName} {this._lastName} is {this._age} {(this._age == 1 ? "year" : "years")} old and weighs {this._weight} lbs. Salary: ${this.GetSalary()}.";
     }
+
+    public abstract double GetSalary();
 }
