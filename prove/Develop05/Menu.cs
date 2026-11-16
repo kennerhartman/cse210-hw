@@ -95,7 +95,37 @@ class Menu
         string goalPointsString = Console.ReadLine();
         int parsedGoalPoints = int.Parse(goalPointsString);
 
-        this._goals.Add(new Goal(goalName, goalDescription, parsedGoalPoints));
+        Goal goal = null;
+
+        switch (parsedGoalType)
+        {
+            case 1:
+                goal = new SimpleGoal(goalName, goalDescription, parsedGoalPoints);
+                
+                break;
+            case 2:
+                goal = new EternalGoal(goalName, goalDescription, parsedGoalPoints);
+                
+                break;
+            case 3:
+                Console.Write("How many times does this goal need to be accomplished for a bonus? ");
+                string timesToCompleteGoalString = Console.ReadLine();
+                int parsedTimesToCompleteGoal = int.Parse(timesToCompleteGoalString);
+                
+                Console.Write("What is the bonus for accomplishing it that many times? ");
+                string bonusPointsString = Console.ReadLine();
+                int parsedBonusPoints = int.Parse(bonusPointsString);
+                
+                goal = new ChecklistGoal(goalName, goalDescription, parsedGoalPoints, parsedBonusPoints, parsedTimesToCompleteGoal);
+
+                break;
+        }
+
+
+        if (goal != null)
+        {
+            this._goals.Add(goal);
+        }
     }
 
     private void ListGoals()

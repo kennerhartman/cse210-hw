@@ -1,34 +1,32 @@
-class Goal
+abstract class Goal
 {
     private string _name;
     private string _description;
-    private bool _isCompleted = false;
     
-    private GoalMetadata _metadata;
+    protected GoalMetadata _metadata;
 
-    public Goal(string name, string description, int points, int bonusPoints, int timesCompleted, bool isCompleted)
+    public Goal(string name, string description, int points, int timesCompleted, bool isCompleted)
     {
         this._name = name;
         this._description = description;
-        this._isCompleted = isCompleted;
 
-        this._metadata = new GoalMetadata(points, bonusPoints, timesCompleted, 0);
+        this._metadata = new GoalMetadata(points, timesCompleted, isCompleted);
     }
 
     public Goal(string name, string description, int points)
     {
         this._name = name;
         this._description = description;
-        this._metadata = new GoalMetadata(points, 0, 0, 0);
+        this._metadata = new GoalMetadata(points, 0, false);
     }
 
-    public string GetGoalInformation()
+    public virtual string GetGoalInformation()
     {
-        return $"[ ] {this._name} ({this._description})"; // TODO: IMPLEMENT
+        return $"[ ] {this._name} ({this._description})";
     }
 
-    public string GetFileString()
+    public virtual string GetFileString()
     {
-        return ""; // TODO: IMPLEMENT
+        return "";
     }
 }
