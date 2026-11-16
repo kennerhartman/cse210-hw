@@ -15,11 +15,11 @@ class Goal
         this._metadata = new GoalMetadata(points, bonusPoints, timesCompleted, 0);
     }
 
-    public Goal(string name, string description)
+    public Goal(string name, string description, int points)
     {
         this._name = name;
         this._description = description;
-        this._metadata = new GoalMetadata(0, 0, 0, 0);
+        this._metadata = new GoalMetadata(points, 0, 0, 0);
     }
 
     public string GetGoalInformation()
