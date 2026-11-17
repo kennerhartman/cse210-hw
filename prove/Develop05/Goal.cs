@@ -20,6 +20,11 @@ abstract class Goal
         this._metadata = new GoalMetadata(points, 0, false);
     }
 
+    public int GetPoints()
+    {
+        return this._metadata.GetIsCompeleted() ? this._metadata.GetPoints() : 0;
+    }
+
     public virtual string GetGoalInformation()
     {
         return $"[ ] {this._name} ({this._description})";

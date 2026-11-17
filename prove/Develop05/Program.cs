@@ -6,6 +6,8 @@ class Program
     {
         Menu menu = new Menu();
 
+        menu.DisplayWelcomeMessage();
+
         while (true)
         {
             bool exit = menu.DisplayMenu();
