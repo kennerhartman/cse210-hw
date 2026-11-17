@@ -9,6 +9,11 @@ class Goals
         foreach (Goal goal in this._goals)
         {
             points += goal.GetPoints();
+
+            if (goal is ChecklistGoal checklistGoal)
+            {
+                points += checklistGoal.GetBonusPoints();
+            }
         }
 
         return points;
@@ -143,6 +148,8 @@ class Goals
             return;
         }
 
+        this._goals.Clear();
+
         List<string> lines = File.ReadAllLines(filename).ToList();
 
         foreach (string line in lines)
@@ -154,9 +161,8 @@ class Goals
             string goalDescription = parts[2];
             
             int points = int.Parse(parts[3]);
-            int timesCompeleted = int.Parse(parts[4]);
 
-            bool isCompeleted = bool.Parse(parts[5]);
+            bool isCompeleted = bool.Parse(parts[4]);
 
             Goal.Type goalType = Enum.Parse<Goal.Type>(goalTypeString);
 
@@ -169,7 +175,6 @@ class Goals
                         goalName,
                         goalDescription,
                         points,
-                        timesCompeleted,
                         isCompeleted
                     );
 
@@ -179,23 +184,23 @@ class Goals
                         goalName,
                         goalDescription,
                         points,
-                        timesCompeleted,
-                        isCompeleted
+                        int.Parse(parts[5])
                     );
 
                     break;
                 case Goal.Type.CHECKLIST:
-                    int bonusPoints = int.Parse(parts[6]);
-                    int timesToComplete = int.Parse(parts[7]);
+                    int bonusPoints = int.Parse(parts[5]);
+                    int timesToComplete = int.Parse(parts[6]);
+                    int timesCompleted = int.Parse(parts[7]);
 
                     goal = new ChecklistGoal(
                         goalName,
                         goalDescription,
                         points,
-                        timesCompeleted,
                         isCompeleted,
                         bonusPoints,
-                        timesToComplete
+                        timesToComplete,
+                        timesCompleted
                     );
 
                     break;
@@ -205,6 +210,36 @@ class Goals
             {
                 this._goals.Add(goal);
             }
+        }
+    }
+
+    public void RecordEvent()
+    {
+        Console.Clear();
+
+        this.ListGoals();
+
+        Console.Write("Select a goal to mark as completed: ");
+
+        string goalIndexString = Console.ReadLine();
+        int goalIndexAdjusted = int.Parse(goalIndexString) - 1;
+
+        if (goalIndexAdjusted < 0 || goalIndexAdjusted >= this._goals.Count())
+        {
+            Console.WriteLine("Invalid index.\n");
+
+            return;
+        }
+
+        Goal goal = this._goals[goalIndexAdjusted];
+
+        if (goal is IncrementalableGoal checklistGoal)
+        {
+            checklistGoal.IncrementTimesCompleted();
+        } 
+        else
+        {
+            goal.MarkCompeleted();
         }
     }
 }

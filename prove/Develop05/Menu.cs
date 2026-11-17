@@ -15,7 +15,7 @@ class Menu
         Console.WriteLine("5. Record Event");
         Console.WriteLine("6. Quit");
 
-        Console.Write("Select a choice from the menu: ");
+        Console.Write("\nSelect a choice from the menu: ");
         
         string response = Console.ReadLine();
 
@@ -56,7 +56,8 @@ class Menu
                 
                 return false;
             case 5:
-                // TODO: IMPLEMENT "RECORD EVENT"
+                this._goals.RecordEvent();
+
                 return false;
             case 6:
                 Console.Write("Are you sure you want to quit? (y/n): ");

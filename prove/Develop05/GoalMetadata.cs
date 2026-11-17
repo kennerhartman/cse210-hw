@@ -1,13 +1,12 @@
 class GoalMetadata
 {
     private int _points;
-    private int _timesCompleted = 0;
     private bool _isCompleted = false;
 
-    public GoalMetadata(int points, int timesCompleted, bool isCompleted)
+    public GoalMetadata(int points, bool isCompleted)
     {
         this._points = points;
-        this._timesCompleted = timesCompleted;
+        this._isCompleted = isCompleted;
     }
 
     public int GetPoints()
@@ -28,13 +27,8 @@ class GoalMetadata
         return this._isCompleted;
     }
 
-    public int GetTimesCompeleted()
+    public void MarkCompeleted()
     {
-        return this._timesCompleted;
-    }
-
-    public void IncrementTimesCompleted()
-    {
-        ++this._timesCompleted;
+        this._isCompleted = true;
     }
 }

@@ -4,7 +4,7 @@ class SimpleGoal : Goal
     {
     }
 
-    public SimpleGoal(string name, string description, int points, int timesCompleted, bool isCompleted) : base(name, description, points, timesCompleted, isCompleted)
+    public SimpleGoal(string name, string description, int points, bool isCompleted) : base(name, description, points, isCompleted)
     {
     }
 
