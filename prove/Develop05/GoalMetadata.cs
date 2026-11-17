@@ -10,12 +10,22 @@ class GoalMetadata
         this._timesCompleted = timesCompleted;
     }
 
+    public int GetPoints()
+    {
+        return this._points;
+    }
+
     public void SetPoints(int value)
     {
         if (value > 0)
         {
             this._points = value;
         }
+    }
+
+    public bool GetIsCompeleted()
+    {
+        return this._isCompleted;
     }
 
     public int GetTimesCompeleted()

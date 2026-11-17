@@ -27,6 +27,16 @@ abstract class Goal
 
     public virtual string GetFileString()
     {
-        return "";
+        char delimiter = '|';
+
+        return $"{this._name}{delimiter}{this.GetGoalType()}{delimiter}{this._description}{delimiter}{this._metadata.GetPoints()}{delimiter}{this._metadata.GetTimesCompeleted()}{delimiter}{this._metadata.GetIsCompeleted()}";
+    }
+
+    public abstract Type GetGoalType();
+
+    public enum Type {
+        SIMPLE,
+        ETERNAL,
+        CHECKLIST
     }
 }

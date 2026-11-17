@@ -38,7 +38,6 @@ class Menu
         switch (response)
         {
             case 1:
-                // TODO: IMPLEMENT "CREATE GOAL"
                 this.CreateGoal();
 
                 return false;
@@ -47,10 +46,12 @@ class Menu
 
                 return false;
             case 3:
-                // TODO: IMPLEMENT "SAVE GOALS"
+                this.SaveGoals();
+
                 return false;
             case 4:
-                // TODO: IMPLEMENT "LOAD GOALS"
+                this.LoadGoals();
+                
                 return false;
             case 5:
                 // TODO: IMPLEMENT "RECORD EVENT"
@@ -139,6 +140,121 @@ class Menu
             Console.WriteLine($"  {counter}. {goal.GetGoalInformation()}");
 
             ++counter;
+        }
+    }
+
+    private void SaveGoals()
+    {
+        Console.Write("Please enter the filename: ");
+        string filename = Console.ReadLine();
+
+        if (!filename.EndsWith(".txt"))
+        {
+            filename += ".txt";
+        }
+
+        List<string> lines = [];
+
+        foreach (Goal goal in this._goals)
+        {
+            lines.Add(goal.GetFileString());
+        }
+
+        if (File.Exists(filename))
+        {
+            Console.Write("This file already exists. Do you want to overwrite it? (y/n)");
+            string response = Console.ReadLine();
+
+            if (response == "y")
+            {
+                File.WriteAllLines(filename, lines);
+            }
+        } 
+        else
+        {
+            File.WriteAllLines(filename, lines);
+        }
+    }
+
+    private void LoadGoals()
+    {
+        Console.Write("Please enter the filename to load: ");
+        string filename = Console.ReadLine();
+
+        if (!filename.EndsWith(".txt"))
+        {
+            filename += ".txt";
+        }
+
+        if (!File.Exists(filename))
+        {
+            Console.WriteLine($"Could not find file with name {filename}.\n");
+            
+            return;
+        }
+
+        List<string> lines = File.ReadAllLines(filename).ToList();
+
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split('|');
+
+            string goalName = parts[0];
+            string goalTypeString = parts[1];
+            string goalDescription = parts[2];
+            
+            int points = int.Parse(parts[3]);
+            int timesCompeleted = int.Parse(parts[4]);
+
+            bool isCompeleted = bool.Parse(parts[5]);
+
+            Goal.Type goalType = Enum.Parse<Goal.Type>(goalTypeString);
+
+            Goal goal = null;
+
+            switch (goalType)
+            {
+                case Goal.Type.SIMPLE:
+                    goal = new SimpleGoal(
+                        goalName,
+                        goalDescription,
+                        points,
+                        timesCompeleted,
+                        isCompeleted
+                    );
+
+                    break;
+                case Goal.Type.ETERNAL:
+                    goal = new EternalGoal(
+                        goalName,
+                        goalDescription,
+                        points,
+                        timesCompeleted,
+                        isCompeleted
+                    );
+
+                    break;
+                case Goal.Type.CHECKLIST:
+                    int bonusPoints = int.Parse(parts[6]);
+                    int timesToComplete = int.Parse(parts[7]);
+
+                    goal = new ChecklistGoal(
+                        goalName,
+                        goalDescription,
+                        points,
+                        timesCompeleted,
+                        isCompeleted,
+                        bonusPoints,
+                        timesToComplete
+                    );
+
+                    break;
+            }
+
+            if (goal != null)
+            {
+                this._goals.Add(goal);
+            }
         }
     }
 }
