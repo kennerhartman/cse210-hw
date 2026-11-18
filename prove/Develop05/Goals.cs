@@ -117,12 +117,14 @@ class Goals
 
         if (File.Exists(filename))
         {
-            Console.Write("This file already exists. Do you want to overwrite it? (y/n)");
+            Console.Write("This file already exists. Do you want to overwrite it? (y/n): ");
             string response = Console.ReadLine();
 
             if (response == "y")
             {
                 File.WriteAllLines(filename, lines);
+
+                Console.WriteLine();
             }
         } 
         else
@@ -211,15 +213,24 @@ class Goals
                 this._goals.Add(goal);
             }
         }
+
+        Console.WriteLine();
     }
 
-    public void RecordEvent()
+    public Goal SelectGoal(string message)
     {
         Console.Clear();
 
+        if (this._goals.Count() == 0)
+        {
+            Console.WriteLine("You have no goals to display.\n");
+
+            return null;
+        }
+
         this.ListGoals();
 
-        Console.Write("Select a goal to mark as completed: ");
+        Console.Write(message);
 
         string goalIndexString = Console.ReadLine();
         int goalIndexAdjusted = int.Parse(goalIndexString) - 1;
@@ -228,10 +239,20 @@ class Goals
         {
             Console.WriteLine("Invalid index.\n");
 
-            return;
+            return null;
         }
 
-        Goal goal = this._goals[goalIndexAdjusted];
+        return this._goals[goalIndexAdjusted];
+    }
+
+    public void RecordEvent()
+    {
+        Goal goal = this.SelectGoal("Select a goal to mark as completed: ");
+
+        if (goal == null)
+        {
+            return;
+        }
 
         if (goal is IncrementalableGoal checklistGoal)
         {

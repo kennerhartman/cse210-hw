@@ -9,11 +9,12 @@ class Menu
         Console.WriteLine("Menu Options:");
         
         Console.WriteLine("1. Create new goal");
-        Console.WriteLine("2. List goals");
-        Console.WriteLine("3. Save goals");
-        Console.WriteLine("4. Load goals");
-        Console.WriteLine("5. Record Event");
-        Console.WriteLine("6. Quit");
+        Console.WriteLine("2. Edit Goal");
+        Console.WriteLine("3. List goals");
+        Console.WriteLine("4. Save goals");
+        Console.WriteLine("5. Load goals");
+        Console.WriteLine("6. Record Event");
+        Console.WriteLine("7. Quit");
 
         Console.Write("\nSelect a choice from the menu: ");
         
@@ -43,23 +44,28 @@ class Menu
                 this._goals.CreateGoal();
 
                 return false;
+
             case 2:
-                this._goals.ListGoals();
+                this.EditGoal();
 
                 return false;
             case 3:
-                this._goals.SaveGoals();
+                this._goals.ListGoals();
 
                 return false;
             case 4:
+                this._goals.SaveGoals();
+
+                return false;
+            case 5:
                 this._goals.LoadGoals();
                 
                 return false;
-            case 5:
+            case 6:
                 this._goals.RecordEvent();
 
                 return false;
-            case 6:
+            case 7:
                 Console.Write("Are you sure you want to quit? (y/n): ");
                 string answer = Console.ReadLine();
 
@@ -81,5 +87,112 @@ class Menu
     public void DisplayWelcomeMessage()
     {
         Console.WriteLine("Welcome to Eternal Quest!\n");
+    }
+
+    private void EditGoal()
+    {
+        Goal goal = this._goals.SelectGoal("Select a goal to edit: ");
+
+        if (goal == null)
+        {
+            return;
+        }
+
+        int position = 0;
+
+        List<(string label, Action execute)> options = new List<(string label, Action execute)>()
+        {
+            ("Edit goal name", () => EditGoalName(goal)),
+            ("Edit goal description", () => EditGoalDescription(goal)),
+            ("Edit goal points", () => EditGoalPoints(goal))
+        };
+
+        if (goal is ChecklistGoal)
+        {
+            options.Add(
+                ("Edit goal bonus points", () => EditGoalBonusPoints(goal))
+            );
+
+            options.Add(
+                ("Edit times to complete", () => EditGoalTimesToComplete(goal))
+            );
+        }
+
+        while (true)
+        {
+            Console.Clear();
+
+            for (int i = 0; i < options.Count; ++i)
+            {
+                Console.Write(i == position ? "[x] " : "[ ] ");
+                Console.WriteLine(options[i].label);
+            }
+
+            ConsoleKeyInfo key = Console.ReadKey(intercept: true);
+
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow when position > 0:
+                    --position;
+                    break;
+
+                case ConsoleKey.DownArrow when position < options.Count - 1:
+                    ++position;
+                    break;
+
+                case ConsoleKey.Enter:
+                    options[position].execute();
+
+                    goal.UpdateStatus();
+
+                    return;
+
+                case ConsoleKey.Escape:
+                    return;
+            }
+
+            Console.Clear();
+        }
+    }
+
+    private void EditGoalName(Goal goal)
+    {
+        string name = Console.ReadLine();
+
+        goal.SetName(name);
+    }
+
+    private void EditGoalDescription(Goal goal)
+    {
+        string description = Console.ReadLine();
+
+        goal.SetDescription(description);
+    }
+
+    private void EditGoalPoints(Goal goal)
+    {
+        int points = int.Parse(Console.ReadLine());
+
+        goal.SetPoints(points);
+    }
+
+    private void EditGoalBonusPoints(Goal goal)
+    {
+        if (goal is ChecklistGoal checklistGoal)
+        {
+            int bonusPoints = int.Parse(Console.ReadLine());
+
+            checklistGoal.SetBonusPoints(bonusPoints);
+        }
+    }
+
+    private void EditGoalTimesToComplete(Goal goal)
+    {
+        if (goal is ChecklistGoal checklistGoal)
+        {
+            int timesToComplete = int.Parse(Console.ReadLine());
+
+            checklistGoal.SetTimesToComplete(timesToComplete);
+        }
     }
 }

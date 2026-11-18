@@ -31,4 +31,12 @@ class GoalMetadata
     {
         this._isCompleted = true;
     }
+
+    public void Update(Goal goal)
+    {
+        if (goal is ChecklistGoal checklistGoal)
+        {
+            this._isCompleted =  checklistGoal.GetTimesCompeleted() >= checklistGoal.GetTimesToCompelete();
+        }
+    }
 }

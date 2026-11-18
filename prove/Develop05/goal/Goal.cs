@@ -20,9 +20,30 @@ abstract class Goal
         this._metadata = new GoalMetadata(points, false);
     }
 
+    public void SetName(string value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            this._name = value;
+        }
+    }
+
+    public void SetDescription(string value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            this._description = value;
+        }
+    }
+
     public virtual int GetPoints()
     {
         return this._metadata.GetIsCompeleted() ? this._metadata.GetPoints() : 0;
+    }
+
+    public void SetPoints(int value)
+    {
+        this._metadata.SetPoints(value);
     }
 
     public virtual void MarkCompeleted()
@@ -35,6 +56,11 @@ abstract class Goal
         string compeltedString = this._metadata.GetIsCompeleted() ? "[x]" : "[ ]";
 
         return $"{compeltedString} {this._name} ({this._description})";
+    }
+
+    public void UpdateStatus()
+    {
+        this._metadata.Update(this);
     }
 
     public virtual string GetFileString()

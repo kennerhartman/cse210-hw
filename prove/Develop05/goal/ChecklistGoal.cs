@@ -15,6 +15,19 @@ class ChecklistGoal : IncrementalableGoal
         this._timesToCompelete = timesToComplete;
     }
 
+    public int GetTimesToCompelete()
+    {
+        return this._timesToCompelete;
+    }
+
+    public void SetTimesToComplete(int value)
+    {
+        if (value > 0)
+        {
+            this._timesToCompelete = value;
+        }
+    }
+
     public override void IncrementTimesCompleted()
     {
         base.IncrementTimesCompleted();
@@ -22,6 +35,14 @@ class ChecklistGoal : IncrementalableGoal
         if (this._timesCompleted == this._timesToCompelete)
         {
             this.MarkCompeleted();
+        }
+    }
+
+    public void SetBonusPoints(int value)
+    {
+        if (value > -1)
+        {
+            this._bonusPoints = value;
         }
     }
 
