@@ -157,6 +157,7 @@ class Menu
 
     private void EditGoalName(Goal goal)
     {
+        Console.Write("New Name: ");
         string name = Console.ReadLine();
 
         goal.SetName(name);
@@ -164,6 +165,7 @@ class Menu
 
     private void EditGoalDescription(Goal goal)
     {
+        Console.Write("New Description: ");
         string description = Console.ReadLine();
 
         goal.SetDescription(description);
@@ -171,6 +173,7 @@ class Menu
 
     private void EditGoalPoints(Goal goal)
     {
+        Console.Write("New Amount of Points: ");
         int points = int.Parse(Console.ReadLine());
 
         goal.SetPoints(points);
@@ -180,6 +183,7 @@ class Menu
     {
         if (goal is ChecklistGoal checklistGoal)
         {
+            Console.Write("New Amount of Bonus Points: ");
             int bonusPoints = int.Parse(Console.ReadLine());
 
             checklistGoal.SetBonusPoints(bonusPoints);
@@ -190,6 +194,7 @@ class Menu
     {
         if (goal is ChecklistGoal checklistGoal)
         {
+            Console.Write("New Number of Times to Complete: ");
             int timesToComplete = int.Parse(Console.ReadLine());
 
             checklistGoal.SetTimesToComplete(timesToComplete);
